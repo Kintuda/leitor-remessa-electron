@@ -1,33 +1,54 @@
 const { ipcRenderer } = require('electron')
-const  { readFileSync, existsSync }= require('fs') 
+const { readFileSync, existsSync } = require('fs')
 
+
+const processString = input => {
+    if (input && input.length > 238) {
+        return sendPayload('payload:text', input)
+    }
+}
+
+const jsonToHtml = data => {
+    let json = JSON.parse(data)
+    let html = ''
+    for (const field in json) {
+        if(!json[field]) continue
+        html += `<tr><td>${field}</td><td>${json[field]}</td</tr>`
+    }
+    let template = `
+    <div class="table-responsive">
+    <table class="table table-bordered table-hover table-condensed">
+    <tr>
+        <th>Campo</th>
+        <th>Valor</th>
+    </tr>
+        ${html ? html : ''}
+    </table>
+    </div>
+    `
+    // console.log(template);
+    return template
+}
 
 const verifyContent = path => {
-    if(!existsSync(path)) return false
+    if (!existsSync(path)) return false
     return readFileSync(path)
 }
 
-const sendPayload = (adress, payload) =>{
+const sendPayload = (adress, payload) => {
     return ipcRenderer.send(adress, payload)
 }
 
-const isBase64 = string => {
-    const regex = new RegExp('^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?$')
-    return regex.test(string)
-}
-
-const openFile = e =>{
+const openFile = e => {
     const adress = 'payload:upload'
     return sendPayload(adress, e)
 }
 
-ipcRenderer.on('payload:result',(e,data)=> {
-    document.querySelector('#resultado').value = JSON.stringify(data, 2 ,null)
+ipcRenderer.on('payload:result', (e, data) => {
+    if(data)document.querySelector('#result').innerHTML = jsonToHtml(data)
+    
 })
 
-const onInputRemessa = e =>{
-    const adress = 'payload:send'
-    if(e.length > 1){
-        console.log(e);
-    }
-}
+ipcRenderer.on('error', (e, data) => {
+    alert(`Erro: ${data}`)
+})

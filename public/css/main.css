@@ -1,5 +1,3 @@
-nav {
-    display: flex;
-    flex-direction: row;
-    align-content: center;
+body{
+    background-color:black;
 }

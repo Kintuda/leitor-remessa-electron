@@ -6,7 +6,7 @@ module.exports = {
         "Agencia DV": [59, 59],
         "Numero Conta": [60, 71],
         "Numero Conta DV": [72, 72],
-        "Razao Social": [74, 103]
+        "Razao Social": [73, 103]
     },
     'P': {
         "Nosso numero": [38, 57],
@@ -45,5 +45,6 @@ module.exports = {
         "Valor multa": [75, 89],
     }
 }
+
 
 

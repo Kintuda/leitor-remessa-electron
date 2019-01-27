@@ -1,4 +1,5 @@
 module.exports = {
     parseFiles: require('./parseFiles'),
-    readRemessa: require('./readRemessa')
+    readRemessa: require('./readRemessa'),
+    utils: require('./utils')
 }
