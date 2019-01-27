@@ -1,6 +1,5 @@
 const OS = require('os')
 const splitSegmentos = remessa => remessa.replace(/[^\x00-\x7F]/g, '').split(OS.EOL)
-const templates = require('../templates/240')
 
 const defineLayout = (position, bank) => {
     switch (position) {
@@ -48,10 +47,7 @@ const createResult = (input, template, cnab) => {
     }
     return json
 }
-const readMultipleFiles = files =>
-    files.map(remessa => {
-        readRemessa(remessa)
-    })
+const readMultipleFiles = files => files.map(remessa => readRemessa(remessa))
 
 const readRemessa = remessa => {
     let segmentos = splitSegmentos(remessa)
@@ -59,11 +55,9 @@ const readRemessa = remessa => {
     let bank
     let layout
     let cnab
-    console.log(segmentos);
     if (segmentos[0].length === (240 || 241)) {
         template = separateSegments240(segmentos)
         bank = segmentos[0].substring(0, 3)
-        console.log(bank);
         cnab = 240
         layout = defineLayout(cnab, bank)
     } else {
@@ -72,8 +66,8 @@ const readRemessa = remessa => {
         template = separateSegments400(segmentos)
         layout = defineLayout(cnab, bank)
     }
-    let result = createResult(template, layout, cnab)
-    return result
+    return createResult(template, layout, cnab)
+   
 }
 
 module.exports = file => {

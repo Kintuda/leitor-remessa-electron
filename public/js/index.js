@@ -12,7 +12,7 @@ const jsonToHtml = data => {
     let json = JSON.parse(data)
     let html = ''
     for (const field in json) {
-        if(!json[field]) continue
+        if (!json[field]) continue
         html += `<tr><td>${field}</td><td>${json[field]}</td</tr>`
     }
     let template = `
@@ -26,7 +26,7 @@ const jsonToHtml = data => {
     </table>
     </div>
     `
-    // console.log(template);
+    console.log(template);
     return template
 }
 
@@ -44,11 +44,31 @@ const openFile = e => {
     return sendPayload(adress, e)
 }
 
-ipcRenderer.on('payload:result', (e, data) => {
-    if(data)document.querySelector('#result').innerHTML = jsonToHtml(data)
-    
+ipcRenderer.on('text:result', (e, data) => {
+    console.log(data);
+    if (data) document.getElementById('resultString').innerHTML = jsonToHtml(data)
+})
+
+ipcRenderer.on('file:result', (e, data) => {
+    if (data) document.getElementById('resultFile').innerHTML = jsonToHtml(data)
 })
 
 ipcRenderer.on('error', (e, data) => {
     alert(`Erro: ${data}`)
 })
+
+const changePage = id => {
+    let main = document.getElementsByClassName('pane')
+    for(let i = 0; i <main.length;i++){
+        main[i].style.display = 'none'
+    }
+    if(id == 'readFile'){
+        main['readFile'].style.display = 'block'
+        let btt = document.getElementById('readStringLink')
+        
+    }else{
+        main['readString'].style.display = 'block'
+        let btt = document.getElementById('readStringLink')
+    }
+}
+
