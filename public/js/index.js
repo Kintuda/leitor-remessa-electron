@@ -8,13 +8,24 @@ const processString = input => {
     }
 }
 
+const createTable = json => {
+    let tableRow = ''
+    for (const field in json) {
+        if (!json[field]) continue
+        tableRow += `<tr><td>${field}</td><td>${json[field]}</td</tr>`
+    }
+    return tableRow
+}
+
 const jsonToHtml = data => {
     let json = JSON.parse(data)
     let html = ''
-    for (const field in json) {
-        if (!json[field]) continue
-        html += `<tr><td>${field}</td><td>${json[field]}</td</tr>`
+    if(Array.isArray(json)){
+        html = json.map(remessaJson => createTable(remessaJson))
+    }else{
+        html = createTable(json)
     }
+
     let template = `
     <div class="table-responsive">
     <table class="table table-bordered table-hover table-condensed">
@@ -26,8 +37,7 @@ const jsonToHtml = data => {
     </table>
     </div>
     `
-    console.log(template);
-    return template
+    return template    
 }
 
 const verifyContent = path => {
@@ -45,7 +55,6 @@ const openFile = e => {
 }
 
 ipcRenderer.on('text:result', (e, data) => {
-    console.log(data);
     if (data) document.getElementById('resultString').innerHTML = jsonToHtml(data)
 })
 

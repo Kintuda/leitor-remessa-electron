@@ -16,6 +16,7 @@
 </head>
 
 <body>
+
     <div class="window">
         <div id="text" class="window-content">
             <div class="pane-group">
@@ -23,32 +24,37 @@
                     <nav class="nav-group">
                         <h4 class="nav-group-title">Leitores</h4>
                         <a id="readFileLink" class="nav-group-item" onclick="changePage('readFile')">
-                                <span class="fas fa-file"></span>
-                                Arquivo
+                            <span class="fas fa-file"></span>
+                            Arquivo
                         </a>
                         <a id="readStringLink" class="nav-group-item" onclick="changePage('readString')">
-                                <span class="fas fa-font"></span>
-                                Texto/Base64
+                            <span class="fas fa-font"></span>
+                            Texto/Base64
                         </a>
                     </nav>
                 </div>
 
                 <div id="readString" class="pane" style="display: none">
-                    <div class="form-group">
-                        <div class="description">
-                            <label>Leitor de texto de remessa</label>
-                            <small>No campo abaixo cole o conteudo da remessa, ou base64</small>
-                        </div>
-                        <div class="
-                                content" style="margin: 10px">
-                                <textarea class="form-control" rows="3" oninput="processString(this.value)"></textarea>
-                        </div>
-                        <div id="resultString" style="margin: 10px"></div>
+                    <div class="card">
+                            <div class="card-body">
+                                Cole o texto ou base64 do arquivo de remessa no quadro abaixo.
+                            </div>
                     </div>
+                    <div class="content" style="margin: 10px">
+                        <textarea class="form-control" rows="3" oninput="processString(this.value)"></textarea>
+                    </div>
+                    <div id="resultString" style="margin: 10px"></div>
                 </div>
 
                 <div id="readFile" class="pane">
-                        <a class="btn btn-primary" onclick="openFile(this.value)" id="fileInput">Enviar</a>
+                        <div class="card">
+                            <div class="card-body">
+                                Selecione o arquivo de remessa com o botão abaixo.
+                            </div>
+                        </div>
+                    <a id="button-select" class="btn btn-large btn-default" onclick="openFile(this.value)" id="fileInput">
+                        <i class="fas fa-folder"> Selecionar arquivo</i>
+                    </a>
                     <div id="resultFile" style="margin: 10px"></div>
                 </div>
             </div>
