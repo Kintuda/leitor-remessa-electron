@@ -1,0 +1,32 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Leitor de remessa</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="../css/main.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="../js/index.js"></script>
+</head>
+<body>
+    <main>
+        <div class="custom-file">
+            <a type="button" onclick="openFile(this.value)" id="fileInput"/>
+            <label class="custom-file-label" for="fileInput">Enviar arquivo</label>
+        </div>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Remessa</span>
+            </div>
+            <textarea id="remessaPayload" onInput="onInputRemessa(this.value)" class="form-control"></textarea>
+        </div>
+        <div class="form-group purple-border">
+            <label for="resultado">Resultado</label>
+            <textarea class="form-control" id="resultado" rows="3"></textarea>
+        </div>
+    </main>
+
+</body>
+</html>
