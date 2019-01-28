@@ -17,7 +17,7 @@ const defineLayout = (position, bank) => {
 const separateSegments400 = segmentos => {
     return {
         'HEADER': segmentos[0],
-        'TAIL': segmentos[1],
+        'DETALHE': segmentos[1],
         'P': segmentos[2],
         'Q': segmentos[3],
         'R': segmentos[4] ? segmentos[4] : null,
@@ -25,15 +25,26 @@ const separateSegments400 = segmentos => {
     }
 }
 
-const separateSegments240 = segmentos => {
-    return {
-        'HEADER': segmentos[0],
-        'TAIL': segmentos[1],
-        'P': segmentos[2],
-        'Q': segmentos[3],
-        'R': segmentos[4] ? segmentos[4] : null,
-        'S': segmentos[5] ? segmentos[5] : null
+const separateSegments240 = (segmentos, bancos) => {
+    let obj = {}
+    switch(bancos){
+        case '001':
+            obj = {
+                'HEADER': segmentos[0],
+                'DETALHE': segmentos[1],
+                'Tipo5': segmentos[2] || null,
+            }
+            break
+        case '748':
+            obj = {
+                "HEADER": segmentos[0],
+                'DETALHE': segmentos[1]
+            }
+            break
+        default:
+            throw new Error('Banco não implementado ainda.')
     }
+    return obj
 }
 
 const createResult = (input, template, cnab) => {
@@ -55,16 +66,22 @@ const readRemessa = remessa => {
     let bank
     let layout
     let cnab
-    if (segmentos[0].length === (240 || 241)) {
+    console.log(segmentos[0].length);
+    if ([240,241].includes(segmentos[0].length)) {
         template = separateSegments240(segmentos)
         bank = segmentos[0].substring(0, 3)
         cnab = 240
+        console.log(bank);
         layout = defineLayout(cnab, bank)
-    } else {
+    } else if([400,401].includes(segmentos[0].length)) {
+        console.log('teste');
         bank = segmentos[0].substring(76, 79)
+        console.log(bank);
         cnab = 400
-        template = separateSegments400(segmentos)
+        template = separateSegments400(segmentos,bank)
         layout = defineLayout(cnab, bank)
+    }else{
+        throw new Error('Arquivo inválido.')
     }
     return createResult(template, layout, cnab)
    
